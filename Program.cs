@@ -44,7 +44,7 @@ class Program
             case 0:
                 runMainMenu();
                 break;
-            // Keyboard Layout`
+            // Keyboard Layout
             case 1:
                 runMainMenu();
                 break;
@@ -88,9 +88,7 @@ class Program
             case 11:
                 break;
         }
-        
-        // No installation logic
-            
+           
     }
         
 }
