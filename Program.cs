@@ -52,6 +52,7 @@ class Program
                 break;
             // Pacman configuration
             case 3:
+                runPacmanConfigurationMenu();
                 break;
             // Packages
             case 4:
@@ -76,6 +77,26 @@ class Program
                 break;
         }
            
+    }
+    private static void runPacmanConfigurationMenu() 
+    {
+        string[] options = {"Repositories", "Mirrors", "Back"};
+        Menu pacmanConfigurationMenu = new Menu("Pacman configuration\n", options);
+        int selectedIndex = pacmanConfigurationMenu.Run();
+        
+        switch (selectedIndex)
+        {
+            //Repositories
+            case 0:
+                break;
+            // Mirrors
+            case 1:
+                break;
+            // Back
+            case 2:
+                runMainMenu();
+                break;
+        }
     }
         
 }
