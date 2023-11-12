@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 class Program
 {
@@ -34,58 +35,44 @@ class Program
                                   \/____/                  \/____/                                       \/____/                  \/____/                  \|___|          
                                                                                                                                                                                                                            
 ";
-        string[] options = {"Language", "Keyboard Layout", "Mirror Region", "Repositories", "Packages", "Partitioning", "Bootloader", "Hostname", "Root password", "Users", "Install", "Exit"};
-        Menu installerOptions = new Menu(prompt, options);
-        int selectedIndex = installerOptions.Run();
+        string[] options = {"Language", "Keyboard Layout", "Partitioning", "Pacman configuration", "Packages", "Bootloader", "Hostname", "Users", "Save configuration", "Load configuration", "Install", "Exit"};
+        Menu mainMenu = new Menu(prompt, options);
+        int selectedIndex = mainMenu.Run();
 
         switch (selectedIndex)
         {
             // Language
             case 0:
-                runMainMenu();
                 break;
             // Keyboard Layout
             case 1:
-                runMainMenu();
                 break;
-            // Mirror Region
+            // Partitioning
             case 2:
-                runMainMenu();
                 break;
-            // Repositories
+            // Pacman configuration
             case 3:
-                runMainMenu();
                 break;
             // Packages
             case 4:
-                runMainMenu();
-                break;
-            // Partitioning
-            case 5:
-                runMainMenu();
                 break;
             // Bootloader
-            case 6:
-                runMainMenu();
+            case 5:
                 break;
             // Hostname
-            case 7:
-                runMainMenu();
-                break;
-            // Root password
-            case 8:
-                runMainMenu();
+            case 6:
                 break;
             // Users
-            case 9:
-                runMainMenu();
+            case 7:
                 break;
-            // Install
-            case 10:
-                runMainMenu();
+            // Save Configuration
+            case 8:
+                break;
+            // Load configuration
+            case 9:
                 break;
             // Exit
-            case 11:
+            case 10:
                 break;
         }
            
