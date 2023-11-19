@@ -8,7 +8,7 @@ class Program
         RunMainMenu();
     }
 
-    private static void RunMainMenu()
+    static void RunMainMenu()
     {
         string prompt = @"
 
@@ -78,7 +78,7 @@ class Program
         }
            
     }
-    private static void RunPacmanConfigurationMenu() 
+    static void RunPacmanConfigurationMenu() 
     {
         string[] options = {"Repositories", "Mirrors", "Back"};
         Menu pacmanConfigurationMenu = new Menu("Pacman configuration\n", options);
