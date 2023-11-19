@@ -98,5 +98,35 @@ class Program
                 break;
         }
     }
-        
+    static List<string> ListDevices()
+    {
+        List<string> deviceList = new List<string>();
+
+        try
+        {
+            string blockDevicesPath = "/sys/block";
+
+            if (Directory.Exists(blockDevicesPath))
+            {
+                string[] devices = Directory.GetDirectories(blockDevicesPath);
+
+                foreach (string device in devices)
+                {
+                    string deviceName = Path.GetFileName(device);
+
+                    // Skip loop devices
+                    if (!deviceName.StartsWith("loop"))
+                    {
+                        deviceList.Add($"/dev/{deviceName}");
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error listing devices: {ex.Message}");
+        }
+
+        return deviceList;
+    }
 }
