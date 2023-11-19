@@ -49,6 +49,7 @@ class Program
                 break;
             // Partitioning
             case 2:
+                RunPartitioningMenu();
                 break;
             // Pacman configuration
             case 3:
@@ -129,4 +130,17 @@ class Program
 
         return deviceList;
     }
+
+static void RunPartitioningMenu()
+{
+    List<string> options = new List<string>();
+
+    foreach (string device in ListDevices())
+    {
+        options.Add(device);
+    }
+
+    Menu partitioningMenu = new Menu("Partitioning\n", options.ToArray());
+    int selectedIndex = partitioningMenu.Run();
+}
 }
