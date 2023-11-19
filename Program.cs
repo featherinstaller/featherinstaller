@@ -52,7 +52,7 @@ class Program
                 break;
             // Pacman configuration
             case 3:
-                runPacmanConfigurationMenu();
+                RunPacmanConfigurationMenu();
                 break;
             // Packages
             case 4:
@@ -94,7 +94,7 @@ class Program
                 break;
             // Back
             case 2:
-                runMainMenu();
+                RunMainMenu();
                 break;
         }
     }
