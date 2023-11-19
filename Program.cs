@@ -115,7 +115,6 @@ class Program
                 {
                     string deviceName = Path.GetFileName(device);
 
-                    // Skip loop devices
                     if (!deviceName.StartsWith("loop"))
                     {
                         deviceList.Add($"/dev/{deviceName}");
