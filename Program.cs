@@ -5,10 +5,10 @@ class Program
 {
     public static void Main()
     {
-        runMainMenu();
+        RunMainMenu();
     }
 
-    private static void runMainMenu()
+    private static void RunMainMenu()
     {
         string prompt = @"
 
@@ -78,7 +78,7 @@ class Program
         }
            
     }
-    private static void runPacmanConfigurationMenu() 
+    private static void RunPacmanConfigurationMenu() 
     {
         string[] options = {"Repositories", "Mirrors", "Back"};
         Menu pacmanConfigurationMenu = new Menu("Pacman configuration\n", options);
