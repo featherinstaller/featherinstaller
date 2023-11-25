@@ -115,7 +115,26 @@ static void RunPartitioningMenu()
         options.Add(device);
     }
 
-    Menu partitioningMenu = new Menu("Partitioning\n", options.ToArray());
-    int selectedIndex = partitioningMenu.Run();
+    Menu diskSelectionMenu = new Menu("Select disk to partition\n", options.ToArray());
+    int selectedIndex = diskSelectionMenu.Run();
+    
+    string selectedDisk = options[selectedIndex];
+
+    string[] partitioningTypes = { "Erase Disk", "Manual Partitioning" };
+    Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {selectedDisk}\n", partitioningTypes);
+    int partitioningTypeIndex = partitioningTypeSelectionMenu.Run();
+
+    switch (partitioningTypeIndex)
+    {
+        // Erase disk
+        case 0:
+            string[] confirmationOptions = { "Yes", "No" };
+            Menu eraseConfirmationMenu = new Menu($"Warning: All data on {selectedDisk} will be lost! Do you want to continue?\n", confirmationOptions);
+            int confirmationMenuIndex = eraseConfirmationMenu.Run();
+            break;
+        // Manual partitioning
+        case 1:
+            break;
+    }
 }
 }
