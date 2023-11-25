@@ -63,7 +63,7 @@ class Program
         
         switch (selectedIndex)
         {
-            //Repositories
+            // Repositories
             case 0:
                 break;
             // Mirrors
