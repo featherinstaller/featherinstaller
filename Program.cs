@@ -19,6 +19,7 @@ class Program
         {
             // Language
             case 0:
+                // SetLanguage();
                 break;
             // Keyboard Layout
             case 1:
@@ -33,6 +34,7 @@ class Program
                 break;
             // Bootloader
             case 4:
+                // SelectBootloader(); 
                 break;
             // Hostname
             case 5:
@@ -40,12 +42,15 @@ class Program
                 break;
             // Users
             case 6:
+                // ManageUsers();
                 break;
             // Save Configuration
             case 7:
+                // Config.SaveConfig();
                 break;
             // Load configuration
             case 8:
+                // Config.LoadConfig();
                 break;
             // Exit
             case 9:
