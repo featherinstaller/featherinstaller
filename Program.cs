@@ -5,10 +5,10 @@ class Program
 {
     public static void Main()
     {
-        RunMainMenu();
+        MainMenu();
     }
 
-    static void RunMainMenu()
+    static void MainMenu()
     {
         string prompt = "Feather installer\n";
         string[] options = {"Language", "Keyboard Layout", "Partitioning", "Pacman configuration", "Bootloader", "Hostname", "Users", "Save configuration", "Load configuration", "Install", "Exit"};
@@ -26,11 +26,11 @@ class Program
                 break;
             // Partitioning
             case 2:
-                RunPartitioningMenu();
+                PartitioningMenu();
                 break;
             // Pacman configuration
             case 3:
-                RunPacmanConfigurationMenu();
+                PacmanConfigMenu();
                 break;
             // Bootloader
             case 4:
@@ -58,7 +58,7 @@ class Program
         }
            
     }
-    static void RunPacmanConfigurationMenu() 
+    static void PacmanConfigMenu() 
     {
         string[] options = {"Repositories", "Mirrors", "Back"};
         Menu pacmanConfigurationMenu = new Menu("Pacman configuration\n", options);
@@ -74,7 +74,7 @@ class Program
                 break;
             // Back
             case 2:
-                RunMainMenu();
+                MainMenu();
                 break;
         }
     }
@@ -109,7 +109,7 @@ class Program
         return deviceList;
     }
 
-static void RunPartitioningMenu()
+static void PartitioningMenu()
 {
     List<string> options = new List<string>();
 
@@ -125,7 +125,7 @@ static void RunPartitioningMenu()
 
     if (selectedIndex == options.Count - 1)
     {
-        RunMainMenu();
+        MainMenu();
         return;
     }
 
@@ -177,7 +177,7 @@ static void ManageUsers()
             break;
         // Back
         case 3:
-            RunMainMenu();
+            MainMenu();
             break;
     }
         
