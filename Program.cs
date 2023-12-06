@@ -118,9 +118,17 @@ static void RunPartitioningMenu()
         options.Add(device);
     }
 
+    options.Add("Back");
+
     Menu diskSelectionMenu = new Menu("Select disk to partition\n", options.ToArray());
     int selectedIndex = diskSelectionMenu.Run();
-    
+
+    if (selectedIndex == options.Count - 1)
+    {
+        RunMainMenu();
+        return;
+    }
+
     string selectedDisk = options[selectedIndex];
 
     string[] partitioningTypes = { "Erase Disk", "Manual Partitioning" };
@@ -134,12 +142,15 @@ static void RunPartitioningMenu()
             string[] confirmationOptions = { "Yes", "No" };
             Menu eraseConfirmationMenu = new Menu($"Warning: All data on {selectedDisk} will be lost! Do you want to continue?\n", confirmationOptions);
             int confirmationMenuIndex = eraseConfirmationMenu.Run();
+            // Handle confirmation as needed
             break;
         // Manual partitioning
         case 1:
+            // Handle manual partitioning
             break;
     }
 }
+
 static void SetHostname()
 {
     Console.Write("Hostname: ");
