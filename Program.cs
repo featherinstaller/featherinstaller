@@ -11,7 +11,7 @@ class Program
     static void RunMainMenu()
     {
         string prompt = "Feather installer\n";
-        string[] options = {"Language", "Keyboard Layout", "Partitioning", "Pacman configuration", "Packages", "Bootloader", "Hostname", "Users", "Save configuration", "Load configuration", "Install", "Exit"};
+        string[] options = {"Language", "Keyboard Layout", "Partitioning", "Pacman configuration", "Bootloader", "Hostname", "Users", "Save configuration", "Load configuration", "Install", "Exit"};
         Menu mainMenu = new Menu(prompt, options);
         int selectedIndex = mainMenu.Run();
 
@@ -31,27 +31,24 @@ class Program
             case 3:
                 RunPacmanConfigurationMenu();
                 break;
-            // Packages
+            // Bootloader
             case 4:
                 break;
-            // Bootloader
-            case 5:
-                break;
             // Hostname
-            case 6:
+            case 5:
                 SetHostname();
                 break;
             // Users
-            case 7:
+            case 6:
                 break;
             // Save Configuration
-            case 8:
+            case 7:
                 break;
             // Load configuration
-            case 9:
+            case 8:
                 break;
             // Exit
-            case 10:
+            case 9:
                 break;
         }
            
