@@ -39,6 +39,7 @@ class Program
                 break;
             // Hostname
             case 6:
+                SetHostname();
                 break;
             // Users
             case 7:
@@ -136,5 +137,10 @@ static void RunPartitioningMenu()
         case 1:
             break;
     }
+}
+static void SetHostname()
+{
+    Console.Write("Hostname: ");
+    string hostname = Console.ReadLine();
 }
 }
