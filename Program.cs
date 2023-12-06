@@ -145,4 +145,30 @@ static void SetHostname()
     Console.Write("Hostname: ");
     string hostname = Console.ReadLine();
 }
+
+static void ManageUsers()
+{
+    string prompt = "Manage Users\n";
+    string[] options = {"Add user", "Remove user", "Edit user", "Back"};
+    Menu mainMenu = new Menu(prompt, options);
+    int selectedIndex = mainMenu.Run();
+
+    switch (selectedIndex)
+    {
+        // Add user
+        case 0:
+            break;
+        // Remove user
+        case 1:
+            break;
+        // Edit user
+        case 2:
+            break;
+        // Back
+        case 3:
+            RunMainMenu();
+            break;
+    }
+        
+}
 }
