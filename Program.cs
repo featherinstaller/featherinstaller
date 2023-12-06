@@ -42,7 +42,7 @@ class Program
                 break;
             // Users
             case 6:
-                // ManageUsers();
+                ManageUsers();
                 break;
             // Save Configuration
             case 7:
