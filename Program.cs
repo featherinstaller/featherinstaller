@@ -34,7 +34,7 @@ class Program
                 break;
             // Bootloader
             case 4:
-                // SelectBootloader(); 
+                SelectBootloader(); 
                 break;
             // Hostname
             case 5:
@@ -180,6 +180,23 @@ static void ManageUsers()
             MainMenu();
             break;
     }
-        
+}
+
+static void SelectBootloader()
+{
+    string[] options = {"Grub", "Back"};
+    Menu bootloaderSelectionMenu = new Menu("Select bootloader\n", options);
+    int selectedIndex = bootloaderSelectionMenu.Run();
+    
+    switch (selectedIndex)
+    {
+        // Grub
+        case 0:
+            break;
+        // Back
+        case 1:
+            MainMenu();
+            break;
+    }
 }
 }
