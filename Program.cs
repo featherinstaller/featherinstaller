@@ -142,11 +142,9 @@ static void PartitioningMenu()
             string[] confirmationOptions = { "Yes", "No" };
             Menu eraseConfirmationMenu = new Menu($"Warning: All data on {selectedDisk} will be lost! Do you want to continue?\n", confirmationOptions);
             int confirmationMenuIndex = eraseConfirmationMenu.Run();
-            // Handle confirmation as needed
             break;
         // Manual partitioning
         case 1:
-            // Handle manual partitioning
             break;
     }
 }
