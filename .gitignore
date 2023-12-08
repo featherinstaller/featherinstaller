@@ -2,4 +2,5 @@
 /bin
 /obj
 /.vscode
-featherinstaller.sln
+/.vs
+/featherinstaller.sln
