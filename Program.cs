@@ -94,7 +94,7 @@ class Program
                 {
                     string deviceName = Path.GetFileName(device);
 
-                    if (!deviceName.StartsWith("loop"))
+                    if (!deviceName.StartsWith("loop") && !deviceName.StartsWith("ram"))
                     {
                         deviceList.Add($"/dev/{deviceName}");
                     }
