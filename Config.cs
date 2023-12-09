@@ -34,6 +34,7 @@ class Config
             Console.WriteLine($"EFI Partition: {config.Partitioning.EFIPartition}");
             Console.WriteLine($"System Partition Size: {config.Partitioning.PartitionSizes.System}");
             Console.WriteLine($"EFI Partition Size: {config.Partitioning.PartitionSizes.EFI}");
+            Console.WriteLine($"Swap Partition Size: {config.Partitioning.PartitionSizes.Swap}");
 
             Console.WriteLine($"Lang: {config.Locales.Lang}");
             Console.WriteLine($"Keyboard Layout: {config.Locales.KeyboardLayout}");
@@ -77,6 +78,7 @@ class PartitionSizes
 {
     public int System { get; set; }
     public int EFI { get; set; }
+    public int Swap { get; set; }
 }
 
 class Locales
