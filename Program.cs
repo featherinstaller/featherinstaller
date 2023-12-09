@@ -48,7 +48,9 @@
                 break;
             // Load configuration
             case 8:
-                // Config.LoadConfig();
+                // Temporarily ReadConfig and WriteConfig instead of LoadConfig for testing
+                var config = Config.ReadConfig("/tmp/config.json");
+                Config.WriteConfig(config);
                 break;
             // Exit
             case 9:
