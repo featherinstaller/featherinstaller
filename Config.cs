@@ -29,9 +29,9 @@ class Config
 
             Console.WriteLine($"Type: {config.Partitioning.Type}");
             Console.WriteLine($"Swap: {config.Partitioning.Swap}");
-            Console.WriteLine($"Swap Partition: {config.Partitioning.SwapPartition}");
             Console.WriteLine($"System Partition: {config.Partitioning.SystemPartition}");
             Console.WriteLine($"EFI Partition: {config.Partitioning.EFIPartition}");
+            Console.WriteLine($"Swap Partition: {config.Partitioning.SwapPartition}");
             Console.WriteLine($"System Partition Size: {config.Partitioning.PartitionSizes.System}");
             Console.WriteLine($"EFI Partition Size: {config.Partitioning.PartitionSizes.EFI}");
             Console.WriteLine($"Swap Partition Size: {config.Partitioning.PartitionSizes.Swap}");
@@ -68,9 +68,9 @@ class Partitioning
 {
     public string Type { get; set; }
     public bool Swap { get; set; }
-    public string SwapPartition { get; set; }
     public string SystemPartition { get; set; }
     public string EFIPartition { get; set; }
+    public string SwapPartition { get; set; }
     public PartitionSizes PartitionSizes { get; set; }
 }
 
