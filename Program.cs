@@ -23,6 +23,7 @@ class Program
                 break;
             // Keyboard Layout
             case 1:
+                // SetKeyboardLayout();
                 break;
             // Partitioning
             case 2:
@@ -197,4 +198,24 @@ static void SelectBootloader()
             break;
     }
 }
+
+/*
+static void SetLanguage()
+{
+    string[] options = {"English", "Back"};
+    Menu languageSelectionMenu = new Menu("Select language\n", options);
+    int selectedIndex = languageSelectionMenu.Run();
+    
+    switch (selectedIndex)
+    {
+        // English
+        case 0:
+            break;
+        // Back
+        case 1:
+            MainMenu();
+            break;
+    }
+}
+*/
 }
