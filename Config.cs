@@ -22,13 +22,21 @@ class Config
     }
     public static void WriteConfig(Configuration config)
     {
+        bool swap;
+        if (config.Partitioning.SwapPartition != null)
+        {
+            swap = true;
+        } else 
+        {
+            swap = false;
+        }
         if (config != null)
         {
             Console.WriteLine($"Bootloader: {config.Bootloader}");
             Console.WriteLine($"Hostname: {config.Hostname}");
 
             Console.WriteLine($"Type: {config.Partitioning.Type}");
-            Console.WriteLine($"Swap: {config.Partitioning.Swap}");
+            Console.WriteLine($"Swap: {swap}");
             Console.WriteLine($"System Partition: {config.Partitioning.SystemPartition}");
             Console.WriteLine($"EFI Partition: {config.Partitioning.EFIPartition}");
             Console.WriteLine($"Swap Partition: {config.Partitioning.SwapPartition}");
