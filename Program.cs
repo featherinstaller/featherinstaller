@@ -10,7 +10,7 @@
     static void MainMenu()
     {
         string prompt = "Feather installer\n";
-        string[] options = {"Language", "Keyboard Layout", "Partitioning", "Pacman configuration", "Bootloader", "Hostname", "Users", "Save configuration", "Load configuration", "Install", "Exit"};
+        string[] options = {"Language", "Keyboard Layout", "Partitioning", "Pacman configuration", "Bootloader", "Hostname", "Users", "Save configuration", "Read configuration (testing)", "Install", "Exit"};
         Menu mainMenu = new Menu(prompt, options);
         int selectedIndex = mainMenu.Run();
 
@@ -48,9 +48,8 @@
             case 7:
                 // Config.SaveConfig();
                 break;
-            // Load configuration
+            // Read Configuration (testing)
             case 8:
-                // Temporarily ReadConfig and WriteConfig instead of LoadConfig for testing
                 var config = Config.ReadConfig("/tmp/config.json");
                 Config.WriteConfig(config);
                 break;
