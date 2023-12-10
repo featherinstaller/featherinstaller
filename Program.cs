@@ -144,7 +144,7 @@ static void PartitioningMenu()
 
             string selectedFilesystem = filesystemOptions[filesystemIndex];
 
-            string[] partitioningTypes = { "Erase Disk", "Manual Partitioning" };
+            string[] partitioningTypes = { "Erase Disk", "Manual Partitioning", "Back" };
             Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {selectedDisk}\nFilesystem: {selectedFilesystem}\n", partitioningTypes);
             int partitioningTypeIndex = partitioningTypeSelectionMenu.Run();
 
@@ -160,9 +160,14 @@ static void PartitioningMenu()
                 // Manual partitioning
                 case 1:
                     break;
+
+                // Back
+                case 2:
+                    break;
             }
 
-            break;
+            if (partitioningTypeIndex == partitioningTypes.Length - 1)
+                break;
         }
     }
 }
