@@ -1,5 +1,6 @@
 ﻿class Program
 {
+    static string selectedBootloader;
     public static void Main()
     {
         MainMenu();
@@ -214,6 +215,7 @@ static void SelectBootloader()
     {
         // Grub
         case 0:
+            selectedBootloader = "grub";
             break;
         // Back
         case 1:
