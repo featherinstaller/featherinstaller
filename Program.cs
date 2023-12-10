@@ -1,6 +1,7 @@
 ﻿class Program
 {
     static string selectedBootloader;
+    static string hostname;
     public static void Main()
     {
         MainMenu();
