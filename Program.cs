@@ -111,43 +111,62 @@
 
 static void PartitioningMenu()
 {
-    List<string> options = new List<string>();
-
-    foreach (string device in ListDevices())
+    while (true)
     {
-        options.Add(device);
-    }
+        List<string> options = new List<string>();
 
-    options.Add("Back");
+        foreach (string device in ListDevices())
+        {
+            options.Add(device);
+        }
 
-    Menu diskSelectionMenu = new Menu("Select disk to partition\n", options.ToArray());
-    int selectedIndex = diskSelectionMenu.Run();
+        options.Add("Back");
 
-    if (selectedIndex == options.Count - 1)
-    {
-        MainMenu();
-        return;
-    }
+        Menu diskSelectionMenu = new Menu("Select disk to partition\n", options.ToArray());
+        int selectedIndex = diskSelectionMenu.Run();
 
-    string selectedDisk = options[selectedIndex];
+        if (selectedIndex == options.Count - 1)
+        {
+            MainMenu();
+            return;
+        }
 
-    string[] partitioningTypes = { "Erase Disk", "Manual Partitioning" };
-    Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {selectedDisk}\n", partitioningTypes);
-    int partitioningTypeIndex = partitioningTypeSelectionMenu.Run();
+        string selectedDisk = options[selectedIndex];
 
-    switch (partitioningTypeIndex)
-    {
-        // Erase disk
-        case 0:
-            string[] confirmationOptions = { "Yes", "No" };
-            Menu eraseConfirmationMenu = new Menu($"Warning: All data on {selectedDisk} will be lost! Do you want to continue?\n", confirmationOptions);
-            int confirmationMenuIndex = eraseConfirmationMenu.Run();
+        while (true)
+        {
+            string[] filesystemOptions = { "ext4", "btrfs", "zfs", "Back" };
+            Menu filesystemSelectionMenu = new Menu("Select filesystem\n", filesystemOptions);
+            int filesystemIndex = filesystemSelectionMenu.Run();
+
+            if (filesystemIndex == 3)
+                break;
+
+            string selectedFilesystem = filesystemOptions[filesystemIndex];
+
+            string[] partitioningTypes = { "Erase Disk", "Manual Partitioning" };
+            Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {selectedDisk}\nFilesystem: {selectedFilesystem}\n", partitioningTypes);
+            int partitioningTypeIndex = partitioningTypeSelectionMenu.Run();
+
+            switch (partitioningTypeIndex)
+            {
+                // Erase disk
+                case 0:
+                    string[] confirmationOptions = { "Yes", "No" };
+                    Menu eraseConfirmationMenu = new Menu($"Warning: All data on {selectedDisk} will be lost! Do you want to continue?\n", confirmationOptions);
+                    int confirmationMenuIndex = eraseConfirmationMenu.Run();
+                    break;
+
+                // Manual partitioning
+                case 1:
+                    break;
+            }
+
             break;
-        // Manual partitioning
-        case 1:
-            break;
+        }
     }
 }
+
 
 static void SetHostname()
 {
