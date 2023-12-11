@@ -1,4 +1,6 @@
-﻿class Program
+﻿using System.Data;
+
+class Program
 {
     static string selectedBootloader;
     static string hostname;
@@ -296,7 +298,7 @@ static void SelectBootloader()
 
 static void DeveloperMode()
 {
-    string[] options = {"Read Configuration","Write Variables","Write Users", "Back"};
+    string[] options = {"Read Configuration","Write Variables", "Back"};
     Menu developerMenu = new Menu("Developer Mode/Menu (for testing)", options);
     int selectedIndex = developerMenu.Run();
     
@@ -314,16 +316,20 @@ static void DeveloperMode()
             Console.WriteLine($"Partitioning Type: {partitioningType}");
             Console.WriteLine($"Disk to partition: {diskToPartition}");
             Console.WriteLine($"Filesystem: {filesystem}");
-            break;
-        // Get users
-        case 2:
+            Console.WriteLine("Users:");
             foreach (var user in users.Values)
             {
-                Console.WriteLine($"Username: {user.Username}\n Display Name: {user.DisplayName}\n Password: {user.Password}\n\n");
+                Console.WriteLine($"Username: {user.Username}\n Display Name: {user.DisplayName}\n Password: {user.Password}");
             }
+            Console.WriteLine("Packages:");
+            foreach (var package in Packages)
+            {
+                Console.Write($"{package}, ");
+            }
+            Console.WriteLine("");
             break;
         // Back
-        case 3:
+        case 2:
             MainMenu();
             break;
     }
