@@ -303,7 +303,7 @@ static void SelectBootloader()
 static void DeveloperMode()
 {
     string[] options = {"Read Configuration","Write Variables", "Back"};
-    Menu developerMenu = new Menu("Developer Mode/Menu (for testing)", options);
+    Menu developerMenu = new Menu("Developer Mode/Menu (for testing)\n", options);
     int selectedIndex = developerMenu.Run();
     
     switch (selectedIndex)
