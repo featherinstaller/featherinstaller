@@ -217,6 +217,7 @@ static void PartitioningMenu()
 static void SetHostname()
 {
     Console.Write("Hostname: ");
+    hostname = Console.ReadLine();
     MainMenu();
 }
 
