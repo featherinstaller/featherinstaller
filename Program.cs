@@ -13,7 +13,7 @@
     static void MainMenu()
     {
         string prompt = "Feather installer\n";
-        string[] options = {"Language", "Keyboard Layout", "Partitioning", "Pacman configuration", "Bootloader", "Hostname", "Users", "Save configuration", "Read configuration (testing)", "Install", "Exit"};
+        string[] options = {"Language", "Keyboard Layout", "Partitioning", "Pacman configuration", "Bootloader", "Hostname", "Users", "Save configuration", "Developer mode", "Install", "Exit"};
         Menu mainMenu = new Menu(prompt, options);
         int selectedIndex = mainMenu.Run();
 
@@ -51,10 +51,9 @@
             case 7:
                 // Config.SaveConfig();
                 break;
-            // Read Configuration (testing)
+            // Developer Mode
             case 8:
-                var config = Config.ReadConfig("/tmp/config.json");
-                Config.WriteConfig(config);
+                DeveloperMode();
                 break;
             // Exit
             case 9:
@@ -235,6 +234,33 @@ static void SelectBootloader()
             break;
         // Back
         case 1:
+            MainMenu();
+            break;
+    }
+}
+
+static void DeveloperMode()
+{
+    string[] options = {"Read Configuration","Write Variables", "Back"};
+    Menu developerMenu = new Menu("Developer Mode/Menu (for testing)", options);
+    int selectedIndex = developerMenu.Run();
+    
+    switch (selectedIndex)
+    {
+        // Read config
+        case 0:
+            var config = Config.ReadConfig("/tmp/config.json");
+            Config.WriteConfig(config);
+            break;
+        // Write Variables
+        case 1:
+            Console.WriteLine($"Selected bootloader: {selectedBootloader}");
+            Console.WriteLine($"Hostname: {hostname}");
+            Console.WriteLine($"Partitioning Type: {partitioningType}");
+            Console.WriteLine($"Disk to partition: {diskToPartition}");
+            break;
+        // Back
+        case 2:
             MainMenu();
             break;
     }
