@@ -217,7 +217,7 @@ static void PartitioningMenu()
 static void SetHostname()
 {
     Console.Write("Hostname: ");
-    string hostname = Console.ReadLine();
+    MainMenu();
 }
 
 static void ManageUsers()
@@ -288,6 +288,7 @@ static void SelectBootloader()
         // Grub
         case 0:
             selectedBootloader = "grub";
+            MainMenu();
             break;
         // Back
         case 1:
