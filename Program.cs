@@ -6,7 +6,7 @@
     static string diskToPartition;
     static string filesystem;
     static Dictionary<string, User> users = new Dictionary<string, User>();
-    static List<string> Packages { get; set; }
+    static List<string> Packages { get; set; } = new List<string>();
 
 public static void Main()
 {
