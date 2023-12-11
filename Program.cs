@@ -193,11 +193,13 @@ static void PartitioningMenu()
                         partitioningTypeSelectionMenu.Run();
                         break;
                     }
+                    MainMenu();
                     break;
 
                 // Manual partitioning
                 case 1:
                     partitioningType = "manual";
+                    MainMenu();
                     break;
 
                 // Back
