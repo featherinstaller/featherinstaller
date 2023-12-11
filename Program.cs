@@ -190,8 +190,8 @@
     static void ManageUsers()
     {
         string[] options = {"Add user", "Remove user", "Edit user", "Back"};
-        Menu mainMenu = new Menu("Manage Users\n", options);
-        int selectedIndex = mainMenu.Run();
+        Menu manageUsersMenu = new Menu("Manage Users\n", options);
+        int selectedIndex = manageUsersMenu.Run();
 
         switch (selectedIndex)
         {
