@@ -6,6 +6,7 @@
     static string diskToPartition;
     static string filesystem;
     static Dictionary<string, User> users = new Dictionary<string, User>();
+    static List<string> Packages { get; set; }
 
 public static void Main()
 {
@@ -83,12 +84,15 @@ static void PacmanConfigMenu()
                     // Add package
                     case 0:
                         Console.Write("Package name: ");
-                        string packageNameToAdd = Console.ReadLine();
+                        string packageToAdd = Console.ReadLine();
+                        Packages.Add(packageToAdd);
+                        Console.ReadLine();
                         break;
                     // Remove package
                     case 1:
                         Console.Write("Package name: ");
-                        string packageNameToRemove = Console.ReadLine();
+                        string packageToRemove = Console.ReadLine();
+                        Packages.Remove(packageToRemove);
                         break;
                     // Back
                     case 2:
@@ -342,4 +346,3 @@ class User
 }
 
 }
-
