@@ -189,7 +189,7 @@
 
     static void ManageUsers()
     {
-        string[] options = {"Add user", "Remove user", "Edit user", "Back"};
+        string[] options = {"Add user", "Remove user", "Back"};
         Menu manageUsersMenu = new Menu("Manage Users\n", options);
         int selectedIndex = manageUsersMenu.Run();
 
@@ -197,15 +197,22 @@
         {
             // Add user
             case 0:
+                Console.Write("Username: ");
+                Console.ReadLine();
+                Console.Write("Display name: ");
+                Console.ReadLine();
+                Console.Write("Password: ");
+                Console.ReadLine();
+                ManageUsers();
                 break;
             // Remove user
             case 1:
-                break;
-            // Edit user
-            case 2:
+                Console.Write("Username: ");
+                Console.ReadLine();
+                ManageUsers();
                 break;
             // Back
-            case 3:
+            case 2:
                 MainMenu();
                 break;
         }
