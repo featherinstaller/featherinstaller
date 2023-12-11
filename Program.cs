@@ -312,5 +312,6 @@ class User
         Password = password;
     }
 }
+
 }
 

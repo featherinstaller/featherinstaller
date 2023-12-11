@@ -48,9 +48,11 @@ class Config
             Console.WriteLine($"Keyboard Layout: {config.Locales.KeyboardLayout}");
 
             Console.WriteLine("Users:");
-            foreach (var user in config.Users)
+            foreach (var user in config.Users.UserList)
             {
-                Console.WriteLine($"  {user.Key}: {user.Value}");
+                Console.WriteLine($"  Username: {user.Username}");
+                Console.WriteLine($"  Display Name: {user.DisplayName}");
+                Console.WriteLine($"  Password: {user.Password}\n");
             }
 
             Console.WriteLine("Packages:");
@@ -68,7 +70,7 @@ class Configuration
     public string Hostname { get; set; }
     public Partitioning Partitioning { get; set; }
     public Locales Locales { get; set; }
-    public Dictionary<string, string> Users { get; set; }
+    public Users Users { get; set; }
     public Pacman Pacman { get; set; }
 }
 
@@ -98,4 +100,16 @@ class Locales
 class Pacman
 {
     public List<string> Packages { get; set; }
+}
+
+class User
+{
+    public string Username { get; set; }
+    public string DisplayName { get; set; }
+    public string Password { get; set; }
+}
+
+class Users
+{
+    public List<User> UserList { get; set; }
 }
