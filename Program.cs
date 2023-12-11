@@ -20,44 +20,36 @@
 
         switch (selectedIndex)
         {
-            // Language
-            case 0:
-                // SetLanguage();
-                break;
-            // Keyboard Layout
-            case 1:
-                // SetKeyboardLayout();
-                break;
             // Partitioning
-            case 2:
+            case 1:
                 PartitioningMenu();
                 break;
             // Pacman configuration
-            case 3:
+            case 2:
                 PacmanConfigMenu();
                 break;
             // Bootloader
-            case 4:
+            case 3:
                 SelectBootloader(); 
                 break;
             // Hostname
-            case 5:
+            case 4:
                 SetHostname();
                 break;
             // Users
-            case 6:
+            case 5:
                 ManageUsers();
                 break;
             // Save Configuration
-            case 7:
+            case 6:
                 // Config.SaveConfig();
                 break;
             // Developer Mode
-            case 8:
+            case 7:
                 DeveloperMode();
                 break;
             // Exit
-            case 9:
+            case 8:
                 break;
         }
            
