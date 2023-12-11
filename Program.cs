@@ -4,6 +4,7 @@
     static string hostname;
     static string partitioningType;
     static string diskToPartition;
+    static string filesystem;
 
     public static void Main()
     {
@@ -145,10 +146,10 @@ static void PartitioningMenu()
             if (filesystemIndex == 3)
                 break;
 
-            string selectedFilesystem = filesystemOptions[filesystemIndex];
+            filesystem = filesystemOptions[filesystemIndex];
 
             string[] partitioningTypes = { "Erase Disk", "Manual Partitioning", "Back" };
-            Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {diskToPartition}\nFilesystem: {selectedFilesystem}\n", partitioningTypes);
+            Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {diskToPartition}\nFilesystem: {filesystem}\n", partitioningTypes);
             int partitioningTypeIndex = partitioningTypeSelectionMenu.Run();
 
             switch (partitioningTypeIndex)
@@ -258,6 +259,7 @@ static void DeveloperMode()
             Console.WriteLine($"Hostname: {hostname}");
             Console.WriteLine($"Partitioning Type: {partitioningType}");
             Console.WriteLine($"Disk to partition: {diskToPartition}");
+            Console.WriteLine($"Filesystem: {filesystem}");
             break;
         // Back
         case 2:
