@@ -21,35 +21,35 @@
         switch (selectedIndex)
         {
             // Partitioning
-            case 1:
+            case 0:
                 PartitioningMenu();
                 break;
             // Pacman configuration
-            case 2:
+            case 1:
                 PacmanConfigMenu();
                 break;
             // Bootloader
-            case 3:
+            case 2:
                 SelectBootloader(); 
                 break;
             // Hostname
-            case 4:
+            case 3:
                 SetHostname();
                 break;
             // Users
-            case 5:
+            case 4:
                 ManageUsers();
                 break;
             // Save Configuration
-            case 6:
+            case 5:
                 // Config.SaveConfig();
                 break;
             // Developer Mode
-            case 7:
+            case 6:
                 DeveloperMode();
                 break;
             // Exit
-            case 8:
+            case 7:
                 break;
         }
            
