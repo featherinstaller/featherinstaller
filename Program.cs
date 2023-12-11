@@ -14,7 +14,7 @@
     static void MainMenu()
     {
         string prompt = "Feather installer\n";
-        string[] options = {"Language", "Keyboard Layout", "Partitioning", "Pacman configuration", "Bootloader", "Hostname", "Users", "Save configuration", "Developer mode", "Install", "Exit"};
+        string[] options = {"Partitioning", "Pacman configuration", "Bootloader", "Hostname", "Users", "Save configuration", "Developer mode", "Install", "Exit"};
         Menu mainMenu = new Menu(prompt, options);
         int selectedIndex = mainMenu.Run();
 
@@ -267,24 +267,4 @@
                 break;
         }
     }
-
-    /*
-    static void SetLanguage()
-    {
-        string[] options = {"English", "Back"};
-        Menu languageSelectionMenu = new Menu("Select language\n", options);
-        int selectedIndex = languageSelectionMenu.Run();
-        
-        switch (selectedIndex)
-        {
-            // English
-            case 0:
-                break;
-            // Back
-            case 1:
-                MainMenu();
-                break;
-        }
-    }
-    */
 }
