@@ -68,8 +68,11 @@ static void PacmanConfigMenu()
         // Mirrors
         case 1:
             break;
-        // Back
+        // Packages
         case 2:
+            break;
+        // Back
+        case 3:
             MainMenu();
             break;
     }
