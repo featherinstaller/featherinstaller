@@ -83,13 +83,14 @@ static void PacmanConfigMenu()
                     // Add package
                     case 0:
                         Console.Write("Package name: ");
+                        Console.ReadLine();
                         string packageToAdd = Console.ReadLine();
                         Packages.Add(packageToAdd);
-                        Console.ReadLine();
                         break;
                     // Remove package
                     case 1:
                         Console.Write("Package name: ");
+                        Console.ReadLine();
                         string packageToRemove = Console.ReadLine();
                         Packages.Remove(packageToRemove);
                         break;
