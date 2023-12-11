@@ -2,6 +2,9 @@
 {
     static string selectedBootloader;
     static string hostname;
+    static string partitioningType;
+    static string diskToPartition;
+
     public static void Main()
     {
         MainMenu();
@@ -132,7 +135,7 @@ static void PartitioningMenu()
             return;
         }
 
-        string selectedDisk = options[selectedIndex];
+        diskToPartition = options[selectedIndex];
 
         while (true)
         {
@@ -146,7 +149,7 @@ static void PartitioningMenu()
             string selectedFilesystem = filesystemOptions[filesystemIndex];
 
             string[] partitioningTypes = { "Erase Disk", "Manual Partitioning", "Back" };
-            Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {selectedDisk}\nFilesystem: {selectedFilesystem}\n", partitioningTypes);
+            Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {diskToPartition}\nFilesystem: {selectedFilesystem}\n", partitioningTypes);
             int partitioningTypeIndex = partitioningTypeSelectionMenu.Run();
 
             switch (partitioningTypeIndex)
@@ -154,22 +157,35 @@ static void PartitioningMenu()
                 // Erase disk
                 case 0:
                     string[] confirmationOptions = { "Yes", "No" };
-                    Menu eraseConfirmationMenu = new Menu($"Warning: All data on {selectedDisk} will be lost! Do you want to continue?\n", confirmationOptions);
+                    Menu eraseConfirmationMenu = new Menu($"Warning: All data on {diskToPartition} will be lost! Do you want to continue?\n", confirmationOptions);
                     int confirmationMenuIndex = eraseConfirmationMenu.Run();
+
+                    if (confirmationMenuIndex == 0)
+                    {
+                        partitioningType = "erase";
+                    }
+                    else
+                    {
+                        partitioningTypeSelectionMenu.Run();
+                        break;
+                    }
                     break;
 
                 // Manual partitioning
                 case 1:
+                    partitioningType = "manual";
                     break;
 
                 // Back
                 case 2:
+                    filesystemSelectionMenu.Run();
                     break;
             }
 
             if (partitioningTypeIndex == partitioningTypes.Length - 1)
                 break;
         }
+
     }
 }
 
