@@ -13,9 +13,8 @@
 
     static void MainMenu()
     {
-        string prompt = "Feather installer\n";
         string[] options = {"Partitioning", "Pacman configuration", "Bootloader", "Hostname", "Users", "Save configuration", "Developer mode", "Install", "Exit"};
-        Menu mainMenu = new Menu(prompt, options);
+        Menu mainMenu = new Menu("Feather installer\n", options);
         int selectedIndex = mainMenu.Run();
 
         switch (selectedIndex)
@@ -190,9 +189,8 @@
 
     static void ManageUsers()
     {
-        string prompt = "Manage Users\n";
         string[] options = {"Add user", "Remove user", "Edit user", "Back"};
-        Menu mainMenu = new Menu(prompt, options);
+        Menu mainMenu = new Menu("Manage Users\n", options);
         int selectedIndex = mainMenu.Run();
 
         switch (selectedIndex)
