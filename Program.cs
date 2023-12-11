@@ -55,7 +55,6 @@ static void MainMenu()
     }
         
 }
-// ... (existing code)
 
 static void PacmanConfigMenu()
 {
