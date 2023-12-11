@@ -113,178 +113,178 @@
         return deviceList;
     }
 
-static void PartitioningMenu()
-{
-    while (true)
+    static void PartitioningMenu()
     {
-        List<string> options = new List<string>();
-
-        foreach (string device in ListDevices())
-        {
-            options.Add(device);
-        }
-
-        options.Add("Back");
-
-        Menu diskSelectionMenu = new Menu("Select disk to partition\n", options.ToArray());
-        int selectedIndex = diskSelectionMenu.Run();
-
-        if (selectedIndex == options.Count - 1)
-        {
-            MainMenu();
-            return;
-        }
-
-        diskToPartition = options[selectedIndex];
-
         while (true)
         {
-            string[] filesystemOptions = { "ext4", "btrfs", "zfs", "Back" };
-            Menu filesystemSelectionMenu = new Menu("Select filesystem\n", filesystemOptions);
-            int filesystemIndex = filesystemSelectionMenu.Run();
+            List<string> options = new List<string>();
 
-            if (filesystemIndex == 3)
-                break;
-
-            filesystem = filesystemOptions[filesystemIndex];
-
-            string[] partitioningTypes = { "Erase Disk", "Manual Partitioning", "Back" };
-            Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {diskToPartition}\nFilesystem: {filesystem}\n", partitioningTypes);
-            int partitioningTypeIndex = partitioningTypeSelectionMenu.Run();
-
-            switch (partitioningTypeIndex)
+            foreach (string device in ListDevices())
             {
-                // Erase disk
-                case 0:
-                    string[] confirmationOptions = { "Yes", "No" };
-                    Menu eraseConfirmationMenu = new Menu($"Warning: All data on {diskToPartition} will be lost! Do you want to continue?\n", confirmationOptions);
-                    int confirmationMenuIndex = eraseConfirmationMenu.Run();
+                options.Add(device);
+            }
 
-                    if (confirmationMenuIndex == 0)
-                    {
-                        partitioningType = "erase";
-                    }
-                    else
-                    {
-                        partitioningTypeSelectionMenu.Run();
+            options.Add("Back");
+
+            Menu diskSelectionMenu = new Menu("Select disk to partition\n", options.ToArray());
+            int selectedIndex = diskSelectionMenu.Run();
+
+            if (selectedIndex == options.Count - 1)
+            {
+                MainMenu();
+                return;
+            }
+
+            diskToPartition = options[selectedIndex];
+
+            while (true)
+            {
+                string[] filesystemOptions = { "ext4", "btrfs", "zfs", "Back" };
+                Menu filesystemSelectionMenu = new Menu("Select filesystem\n", filesystemOptions);
+                int filesystemIndex = filesystemSelectionMenu.Run();
+
+                if (filesystemIndex == 3)
+                    break;
+
+                filesystem = filesystemOptions[filesystemIndex];
+
+                string[] partitioningTypes = { "Erase Disk", "Manual Partitioning", "Back" };
+                Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {diskToPartition}\nFilesystem: {filesystem}\n", partitioningTypes);
+                int partitioningTypeIndex = partitioningTypeSelectionMenu.Run();
+
+                switch (partitioningTypeIndex)
+                {
+                    // Erase disk
+                    case 0:
+                        string[] confirmationOptions = { "Yes", "No" };
+                        Menu eraseConfirmationMenu = new Menu($"Warning: All data on {diskToPartition} will be lost! Do you want to continue?\n", confirmationOptions);
+                        int confirmationMenuIndex = eraseConfirmationMenu.Run();
+
+                        if (confirmationMenuIndex == 0)
+                        {
+                            partitioningType = "erase";
+                        }
+                        else
+                        {
+                            partitioningTypeSelectionMenu.Run();
+                            break;
+                        }
                         break;
-                    }
-                    break;
 
-                // Manual partitioning
-                case 1:
-                    partitioningType = "manual";
-                    break;
+                    // Manual partitioning
+                    case 1:
+                        partitioningType = "manual";
+                        break;
 
-                // Back
-                case 2:
-                    filesystemSelectionMenu.Run();
+                    // Back
+                    case 2:
+                        filesystemSelectionMenu.Run();
+                        break;
+                }
+
+                if (partitioningTypeIndex == partitioningTypes.Length - 1)
                     break;
             }
 
-            if (partitioningTypeIndex == partitioningTypes.Length - 1)
+        }
+    }
+
+
+    static void SetHostname()
+    {
+        Console.Write("Hostname: ");
+        string hostname = Console.ReadLine();
+    }
+
+    static void ManageUsers()
+    {
+        string prompt = "Manage Users\n";
+        string[] options = {"Add user", "Remove user", "Edit user", "Back"};
+        Menu mainMenu = new Menu(prompt, options);
+        int selectedIndex = mainMenu.Run();
+
+        switch (selectedIndex)
+        {
+            // Add user
+            case 0:
+                break;
+            // Remove user
+            case 1:
+                break;
+            // Edit user
+            case 2:
+                break;
+            // Back
+            case 3:
+                MainMenu();
                 break;
         }
-
     }
-}
 
-
-static void SetHostname()
-{
-    Console.Write("Hostname: ");
-    string hostname = Console.ReadLine();
-}
-
-static void ManageUsers()
-{
-    string prompt = "Manage Users\n";
-    string[] options = {"Add user", "Remove user", "Edit user", "Back"};
-    Menu mainMenu = new Menu(prompt, options);
-    int selectedIndex = mainMenu.Run();
-
-    switch (selectedIndex)
+    static void SelectBootloader()
     {
-        // Add user
-        case 0:
-            break;
-        // Remove user
-        case 1:
-            break;
-        // Edit user
-        case 2:
-            break;
-        // Back
-        case 3:
-            MainMenu();
-            break;
+        string[] options = {"Grub", "Back"};
+        Menu bootloaderSelectionMenu = new Menu("Select bootloader\n", options);
+        int selectedIndex = bootloaderSelectionMenu.Run();
+        
+        switch (selectedIndex)
+        {
+            // Grub
+            case 0:
+                selectedBootloader = "grub";
+                break;
+            // Back
+            case 1:
+                MainMenu();
+                break;
+        }
     }
-}
 
-static void SelectBootloader()
-{
-    string[] options = {"Grub", "Back"};
-    Menu bootloaderSelectionMenu = new Menu("Select bootloader\n", options);
-    int selectedIndex = bootloaderSelectionMenu.Run();
-    
-    switch (selectedIndex)
+    static void DeveloperMode()
     {
-        // Grub
-        case 0:
-            selectedBootloader = "grub";
-            break;
-        // Back
-        case 1:
-            MainMenu();
-            break;
+        string[] options = {"Read Configuration","Write Variables", "Back"};
+        Menu developerMenu = new Menu("Developer Mode/Menu (for testing)", options);
+        int selectedIndex = developerMenu.Run();
+        
+        switch (selectedIndex)
+        {
+            // Read config
+            case 0:
+                var config = Config.ReadConfig("/tmp/config.json");
+                Config.WriteConfig(config);
+                break;
+            // Write Variables
+            case 1:
+                Console.WriteLine($"Selected bootloader: {selectedBootloader}");
+                Console.WriteLine($"Hostname: {hostname}");
+                Console.WriteLine($"Partitioning Type: {partitioningType}");
+                Console.WriteLine($"Disk to partition: {diskToPartition}");
+                Console.WriteLine($"Filesystem: {filesystem}");
+                break;
+            // Back
+            case 2:
+                MainMenu();
+                break;
+        }
     }
-}
 
-static void DeveloperMode()
-{
-    string[] options = {"Read Configuration","Write Variables", "Back"};
-    Menu developerMenu = new Menu("Developer Mode/Menu (for testing)", options);
-    int selectedIndex = developerMenu.Run();
-    
-    switch (selectedIndex)
+    /*
+    static void SetLanguage()
     {
-        // Read config
-        case 0:
-            var config = Config.ReadConfig("/tmp/config.json");
-            Config.WriteConfig(config);
-            break;
-        // Write Variables
-        case 1:
-            Console.WriteLine($"Selected bootloader: {selectedBootloader}");
-            Console.WriteLine($"Hostname: {hostname}");
-            Console.WriteLine($"Partitioning Type: {partitioningType}");
-            Console.WriteLine($"Disk to partition: {diskToPartition}");
-            Console.WriteLine($"Filesystem: {filesystem}");
-            break;
-        // Back
-        case 2:
-            MainMenu();
-            break;
+        string[] options = {"English", "Back"};
+        Menu languageSelectionMenu = new Menu("Select language\n", options);
+        int selectedIndex = languageSelectionMenu.Run();
+        
+        switch (selectedIndex)
+        {
+            // English
+            case 0:
+                break;
+            // Back
+            case 1:
+                MainMenu();
+                break;
+        }
     }
-}
-
-/*
-static void SetLanguage()
-{
-    string[] options = {"English", "Back"};
-    Menu languageSelectionMenu = new Menu("Select language\n", options);
-    int selectedIndex = languageSelectionMenu.Run();
-    
-    switch (selectedIndex)
-    {
-        // English
-        case 0:
-            break;
-        // Back
-        case 1:
-            MainMenu();
-            break;
-    }
-}
-*/
+    */
 }
