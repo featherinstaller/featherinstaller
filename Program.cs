@@ -54,9 +54,11 @@ static void MainMenu()
     }
         
 }
-static void PacmanConfigMenu() 
+// ... (existing code)
+
+static void PacmanConfigMenu()
 {
-    string[] options = {"Repositories", "Mirrors", "Back"};
+    string[] options = {"Repositories", "Mirrors", "Packages", "Back"};
     Menu pacmanConfigurationMenu = new Menu("Pacman configuration\n", options);
     int selectedIndex = pacmanConfigurationMenu.Run();
     
@@ -70,7 +72,30 @@ static void PacmanConfigMenu()
             break;
         // Packages
         case 2:
-            break;
+            while (true)
+            {
+                string[] packagesOptions = {"Add package", "Remove package", "Back"};
+                Menu packagesMenu = new Menu("Packages\n", packagesOptions);
+                int packagesIndex = packagesMenu.Run();
+                
+                switch (packagesIndex)
+                {
+                    // Add package
+                    case 0:
+                        Console.Write("Package name: ");
+                        string packageNameToAdd = Console.ReadLine();
+                        break;
+                    // Remove package
+                    case 1:
+                        Console.Write("Package name: ");
+                        string packageNameToRemove = Console.ReadLine();
+                        break;
+                    // Back
+                    case 2:
+                        PacmanConfigMenu();
+                        return;
+                }
+            }
         // Back
         case 3:
             MainMenu();
