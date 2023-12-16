@@ -141,81 +141,58 @@ static void PartitioningMenu()
 {
     while (true)
     {
-        List<string> options = new List<string>();
-
-        foreach (string device in ListDevices())
-        {
-            options.Add(device);
-        }
-
+        List<string> options = ListDevices();
         options.Add("Back");
 
         Menu diskSelectionMenu = new Menu("Select disk to partition\n", options.ToArray());
-        int selectedIndex = diskSelectionMenu.Run();
+        int diskIndex = diskSelectionMenu.Run();
 
-        if (selectedIndex == options.Count - 1)
+        if (diskIndex == options.Count - 1)
         {
             MainMenu();
             return;
         }
 
-        string selectedDisk = options[selectedIndex];
+        diskToPartition = options[diskIndex];
+        string[] filesystemOptions = { "ext4", "btrfs", "zfs", "Back" };
+        Menu filesystemSelectionMenu = new Menu("Select filesystem\n", filesystemOptions);
+        int filesystemIndex = filesystemSelectionMenu.Run();
 
-        while (true)
+        if (filesystemIndex == 3)
         {
-            string[] filesystemOptions = { "ext4", "btrfs", "zfs", "Back" };
-            Menu filesystemSelectionMenu = new Menu("Select filesystem\n", filesystemOptions);
-            int filesystemIndex = filesystemSelectionMenu.Run();
+            continue;
+        }
 
-            if (filesystemIndex == 3)
-                break;
+        filesystem = filesystemOptions[filesystemIndex];
 
-            string selectedFilesystem = filesystemOptions[filesystemIndex];
+        string[] partitioningTypes = { "Erase Disk", "Manual Partitioning", "Back" };
+        Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {diskToPartition}\nFilesystem: {filesystem}\n", partitioningTypes);
+        int partitioningTypeIndex = partitioningTypeSelectionMenu.Run();
 
-            string[] partitioningTypes = { "Erase Disk", "Manual Partitioning", "Back" };
-            Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {selectedDisk}\nFilesystem: {selectedFilesystem}\n", partitioningTypes);
-            int partitioningTypeIndex = partitioningTypeSelectionMenu.Run();
+        if (partitioningTypeIndex == 0)
+        {
+            // Erase disk
+            string[] confirmationOptions = { "Yes", "No" };
+            Menu eraseConfirmationMenu = new Menu($"Warning: All data on {diskToPartition} will be lost! Do you want to continue?\n", confirmationOptions);
+            int confirmationMenuIndex = eraseConfirmationMenu.Run();
 
-            switch (partitioningTypeIndex)
+            if (confirmationMenuIndex == 0)
             {
-                // Erase disk
-                case 0:
-                    string[] confirmationOptions = { "Yes", "No" };
-                    Menu eraseConfirmationMenu = new Menu($"Warning: All data on {selectedDisk} will be lost! Do you want to continue?\n", confirmationOptions);
-                    int confirmationMenuIndex = eraseConfirmationMenu.Run();
-
-                    if (confirmationMenuIndex == 0)
-                    {
-                        partitioningType = "erase";
-                    }
-                    else
-                    {
-                        partitioningTypeSelectionMenu.Run();
-                        break;
-                    }
-                    MainMenu();
-                    break;
-
-                // Manual partitioning
-                case 1:
-                    partitioningType = "manual";
-                    MainMenu();
-                    break;
-
-                // Back
-                case 2:
-                    filesystemSelectionMenu.Run();
-                    break;
+                partitioningType = "erase";
+                MainMenu();
+                return;
             }
-
-            filesystem = selectedFilesystem;
-            diskToPartition = selectedDisk;
-            
-            if (partitioningTypeIndex == partitioningTypes.Length - 1)
-                break;
+        }
+        else if (partitioningTypeIndex == 1)
+        {
+            // Manual partitioning
+            partitioningType = "manual";
+            MainMenu();
+            return;
         }
     }
 }
+
 
 
 static void SetHostname()
@@ -307,16 +284,15 @@ static void DeveloperMode()
     string[] options = {"Read Configuration","Write Variables", "Back"};
     Menu developerMenu = new Menu("Developer Mode/Menu (for testing)\n", options);
     int selectedIndex = developerMenu.Run();
-    
     switch (selectedIndex)
     {
         // Read config
-        case 1:
+        case 0:
             var config = Config.ReadConfig("/tmp/config.json");
             Config.WriteConfig(config);
             break;
         // Write Variables
-        case 0:
+        case 1:
             Console.WriteLine($"Selected bootloader: {selectedBootloader}");
             Console.WriteLine($"Hostname: {hostname}");
             Console.WriteLine($"Partitioning Type: {partitioningType}");
