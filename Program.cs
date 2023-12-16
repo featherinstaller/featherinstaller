@@ -159,7 +159,7 @@ static void PartitioningMenu()
             return;
         }
 
-        diskToPartition = options[selectedIndex];
+        string selectedDisk = options[selectedIndex];
 
         while (true)
         {
@@ -170,10 +170,10 @@ static void PartitioningMenu()
             if (filesystemIndex == 3)
                 break;
 
-            filesystem = filesystemOptions[filesystemIndex];
+            string selectedFilesystem = filesystemOptions[filesystemIndex];
 
             string[] partitioningTypes = { "Erase Disk", "Manual Partitioning", "Back" };
-            Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {diskToPartition}\nFilesystem: {filesystem}\n", partitioningTypes);
+            Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {selectedDisk}\nFilesystem: {selectedFilesystem}\n", partitioningTypes);
             int partitioningTypeIndex = partitioningTypeSelectionMenu.Run();
 
             switch (partitioningTypeIndex)
@@ -181,7 +181,7 @@ static void PartitioningMenu()
                 // Erase disk
                 case 0:
                     string[] confirmationOptions = { "Yes", "No" };
-                    Menu eraseConfirmationMenu = new Menu($"Warning: All data on {diskToPartition} will be lost! Do you want to continue?\n", confirmationOptions);
+                    Menu eraseConfirmationMenu = new Menu($"Warning: All data on {selectedDisk} will be lost! Do you want to continue?\n", confirmationOptions);
                     int confirmationMenuIndex = eraseConfirmationMenu.Run();
 
                     if (confirmationMenuIndex == 0)
@@ -208,10 +208,12 @@ static void PartitioningMenu()
                     break;
             }
 
+            filesystem = selectedFilesystem;
+            diskToPartition = selectedDisk;
+            
             if (partitioningTypeIndex == partitioningTypes.Length - 1)
                 break;
         }
-
     }
 }
 
@@ -309,27 +311,18 @@ static void DeveloperMode()
     switch (selectedIndex)
     {
         // Read config
-        case 0:
+        case 1:
             var config = Config.ReadConfig("/tmp/config.json");
             Config.WriteConfig(config);
             break;
         // Write Variables
-        case 1:
+        case 0:
             Console.WriteLine($"Selected bootloader: {selectedBootloader}");
             Console.WriteLine($"Hostname: {hostname}");
             Console.WriteLine($"Partitioning Type: {partitioningType}");
             Console.WriteLine($"Disk to partition: {diskToPartition}");
             Console.WriteLine($"Filesystem: {filesystem}");
             Console.WriteLine("Users:");
-            foreach (var user in users.Values)
-            {
-                Console.WriteLine($"Username: {user.Username}\n Display Name: {user.DisplayName}\n Password: {user.Password}");
-            }
-            Console.WriteLine("Packages:");
-            foreach (var package in Packages)
-            {
-                Console.Write($"{package}, ");
-            }
             Console.WriteLine("");
             break;
         // Back
