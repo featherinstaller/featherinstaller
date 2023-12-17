@@ -5,6 +5,5 @@ An alternative to archinstall. It currently is in development you can see what i
 
 1. Finish pacman configuration menu
 2. Add saving config
-3. Add creating config
-4. Make manual partitioning work (parted and then ask for partitions)
-5. Make installing work
+3. Make manual partitioning work (parted and then ask for partitions)
+4. Make installing work

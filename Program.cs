@@ -1,12 +1,20 @@
-﻿class Program
+﻿using Newtonsoft.Json;
+
+class Program
 {
     static string selectedBootloader;
     static string hostname;
     static string partitioningType;
     static string diskToPartition;
     static string filesystem;
+    static string SystemPartition;
+    static string EFIPartition;
+    static string SwapPartition;
+    
+    static Dictionary<int, PartitionSizes> partitionSizes = new Dictionary<int, PartitionSizes>();
     static Dictionary<string, User> users = new Dictionary<string, User>();
     static List<string> Packages { get; set; } = new List<string>();
+    static bool swap;
 
 public static void Main()
 {
@@ -163,13 +171,33 @@ static void PartitioningMenu()
 
         filesystem = filesystemOptions[filesystemIndex];
 
+        string[] swapOptions = { "Yes", "No", "Back" };
+        Menu swapYesNoMenu = new Menu("Do you want to use swap?\n", swapOptions);
+        int swapYesNoSelectedIndex = swapYesNoMenu.Run();
+
+        // Yes
+        if (swapYesNoSelectedIndex == 0)
+        {
+            swap = true;
+        // No
+        } else if (swapYesNoSelectedIndex == 1)
+        {
+            swap = false;
+        }
+        
+        // Back
+        else if (swapYesNoSelectedIndex == 2)
+        {
+            filesystemSelectionMenu.Run();
+        }
+
         string[] partitioningTypes = { "Erase Disk", "Manual Partitioning", "Back" };
         Menu partitioningTypeSelectionMenu = new Menu($"Selected Disk: {diskToPartition}\nFilesystem: {filesystem}\n", partitioningTypes);
         int partitioningTypeIndex = partitioningTypeSelectionMenu.Run();
 
+        // Erase disk
         if (partitioningTypeIndex == 0)
         {
-            // Erase disk
             string[] confirmationOptions = { "Yes", "No" };
             Menu eraseConfirmationMenu = new Menu($"Warning: All data on {diskToPartition} will be lost! Do you want to continue?\n", confirmationOptions);
             int confirmationMenuIndex = eraseConfirmationMenu.Run();
@@ -177,14 +205,32 @@ static void PartitioningMenu()
             if (confirmationMenuIndex == 0)
             {
                 partitioningType = "erase";
+                Console.Write("Enter EFI partition size (in MB): ");
+                int efiPartitionSize = int.Parse(Console.ReadLine());
+                EFIPartition = $"{diskToPartition}1";
+                partitionSizes[diskIndex] = new PartitionSizes { EFI = efiPartitionSize };
+
+                if (swap)
+                {
+                    Console.Write("Enter Swap partition size (in MB): ");
+                    int swapPartitionSize = int.Parse(Console.ReadLine());
+                    SwapPartition = $"{diskToPartition}2";
+                    partitionSizes[diskIndex].Swap = swapPartitionSize;
+                    partitionSizes[diskIndex].System = GetDiskSize(diskToPartition) - efiPartitionSize - swapPartitionSize;
+                }
+                else
+                {
+                    partitionSizes[diskIndex].System = GetDiskSize(diskToPartition) - efiPartitionSize;
+                }
+
                 MainMenu();
                 return;
             }
-        }
-        else if (partitioningTypeIndex == 1)
+        // Manual partitioning
+        } else if (partitioningTypeIndex == 1)
         {
-            // Manual partitioning
             partitioningType = "manual";
+            // Not implemented
             MainMenu();
             return;
         }
@@ -257,6 +303,24 @@ static void ManageUsers()
     }
 }
 
+static int GetDiskSize(string diskToPartition)
+{
+    string sysBlockPath = Path.Combine("/sys/block", diskToPartition);
+
+    if (Directory.Exists(sysBlockPath))
+    {
+        string sizePath = Path.Combine(sysBlockPath, "size");
+        if (File.Exists(sizePath))
+        {
+            long sizeInBytes = long.Parse(File.ReadAllText(sizePath)) * 512;
+            return (int)(sizeInBytes / (1024 * 1024 * 1024));
+        }
+    }
+
+    return -1;
+}
+
+
 static void SelectBootloader()
 {
     string[] options = {"Grub", "Back"};
@@ -304,6 +368,13 @@ static void DeveloperMode()
             Console.WriteLine($"Partitioning Type: {partitioningType}");
             Console.WriteLine($"Disk to partition: {diskToPartition}");
             Console.WriteLine($"Filesystem: {filesystem}");
+            Console.WriteLine("Swap: {swap}");
+            Console.WriteLine($"System partition size: {partitionSizes[0].System}MB");
+            Console.WriteLine($"EFI partition size: {partitionSizes[0].EFI}MB");
+            if (swap)
+            {
+                Console.WriteLine($"Swap partition size: {partitionSizes[0].Swap}MB");
+            }
             Console.WriteLine("Users:");
             foreach (var user in users.Values)
             {
@@ -335,6 +406,12 @@ class User
         DisplayName = displayName;
         Password = password;
     }
+}
+class PartitionSizes
+{
+    public int System { get; set; }
+    public int EFI { get; set; }
+    public int Swap { get; set; }
 }
 
 }
