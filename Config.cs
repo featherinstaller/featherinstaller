@@ -62,8 +62,33 @@ class Config
             }
         }
     }
-}
+public static Configuration CreateConfig(string bootloader, string hostname, string partitioningType, string diskToPartition, string filesystem, Dictionary<string, User> users, List<string> packages)
+{
+    Configuration myConfig = new Configuration
+    {
+        Bootloader = bootloader,
+        Hostname = hostname,
+        Partitioning = new Partitioning
+        {
+            Type = partitioningType,
+        },
+        Locales = new Locales
+        {
+            // Not finished
+        },
+        Users = new Users
+        {
+            UserList = new List<User>(users.Values)
+        },
+        Pacman = new Pacman
+        {
+            Packages = packages
+        }
+    };
 
+    return myConfig;
+}
+}
 class Configuration
 {
     public string Bootloader { get; set; }

@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-class Program
+﻿class Program
 {
     static string selectedBootloader;
     static string hostname;
