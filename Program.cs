@@ -288,8 +288,16 @@ static void DeveloperMode()
     {
         // Read config
         case 0:
-            var config = Config.ReadConfig("/tmp/config.json");
-            Config.WriteConfig(config);
+            Console.Write("Config path: ");
+            string configPath = Console.ReadLine();
+            if (File.Exists(configPath))
+            {
+                var config = Config.ReadConfig(configPath);;
+                Config.WriteConfig(config);
+            }else
+            {
+                Console.WriteLine("Configuration file does not exist.");
+            }
             break;
         // Write Variables
         case 1:
@@ -299,6 +307,15 @@ static void DeveloperMode()
             Console.WriteLine($"Disk to partition: {diskToPartition}");
             Console.WriteLine($"Filesystem: {filesystem}");
             Console.WriteLine("Users:");
+            foreach (var user in users.Values)
+            {
+                Console.WriteLine($"Username: {user.Username}\n Display Name: {user.DisplayName}\n Password: {user.Password}");
+            }
+            Console.WriteLine("Packages:");
+            foreach (var package in Packages)
+            {
+                Console.Write($"{package}, ");
+            }
             Console.WriteLine("");
             break;
         // Back
