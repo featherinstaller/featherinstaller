@@ -119,9 +119,9 @@ class Partitioning
 
 class PartitionSizes
 {
-    public int System { get; set; }
-    public int EFI { get; set; }
-    public int Swap { get; set; }
+    public long System { get; set; }
+    public long EFI { get; set; }
+    public long Swap { get; set; }
 }
 
 class Locales

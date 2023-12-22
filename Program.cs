@@ -11,7 +11,7 @@ class Program
     static string EFIPartition;
     static string SwapPartition;
     
-    static Dictionary<int, PartitionSizes> partitionSizes = new Dictionary<int, PartitionSizes>();
+    static Dictionary<string, PartitionSizes> partitionSizes = new Dictionary<string, PartitionSizes>();
     static Dictionary<string, User> users = new Dictionary<string, User>();
     static List<string> Packages { get; set; } = new List<string>();
     static bool swap;
@@ -208,19 +208,19 @@ static void PartitioningMenu()
                 Console.Write("Enter EFI partition size (in MB): ");
                 int efiPartitionSize = int.Parse(Console.ReadLine());
                 EFIPartition = $"{diskToPartition}1";
-                partitionSizes[diskIndex] = new PartitionSizes { EFI = efiPartitionSize };
+                partitionSizes[diskToPartition] = new PartitionSizes { EFI = efiPartitionSize };
 
                 if (swap)
                 {
                     Console.Write("Enter Swap partition size (in MB): ");
                     int swapPartitionSize = int.Parse(Console.ReadLine());
                     SwapPartition = $"{diskToPartition}2";
-                    partitionSizes[diskIndex].Swap = swapPartitionSize;
-                    partitionSizes[diskIndex].System = GetDiskSize(diskToPartition) - efiPartitionSize - swapPartitionSize;
+                    partitionSizes[diskToPartition].Swap = swapPartitionSize;
+                    partitionSizes[diskToPartition].System = GetDiskSize(diskToPartition) - efiPartitionSize - swapPartitionSize;
                 }
                 else
                 {
-                    partitionSizes[diskIndex].System = GetDiskSize(diskToPartition) - efiPartitionSize;
+                    partitionSizes[diskToPartition].System = GetDiskSize(diskToPartition) - efiPartitionSize;
                 }
 
                 MainMenu();
@@ -303,21 +303,18 @@ static void ManageUsers()
     }
 }
 
-static int GetDiskSize(string diskToPartition)
+static long GetDiskSize(string diskToPartition) // broken bs
 {
-    string sysBlockPath = Path.Combine("/sys/block", diskToPartition);
-
-    if (Directory.Exists(sysBlockPath))
+    try
     {
-        string sizePath = Path.Combine(sysBlockPath, "size");
-        if (File.Exists(sizePath))
-        {
-            long sizeInBytes = long.Parse(File.ReadAllText(sizePath)) * 512;
-            return (int)(sizeInBytes / (1024 * 1024 * 1024));
-        }
+        var totalSize = new DriveInfo(diskToPartition).TotalSize;
+        return totalSize;
     }
-
-    return -1;
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error getting disk size: {ex.Message}");
+        return -1;
+    }
 }
 
 
@@ -368,12 +365,12 @@ static void DeveloperMode()
             Console.WriteLine($"Partitioning Type: {partitioningType}");
             Console.WriteLine($"Disk to partition: {diskToPartition}");
             Console.WriteLine($"Filesystem: {filesystem}");
-            Console.WriteLine("Swap: {swap}");
-            Console.WriteLine($"System partition size: {partitionSizes[0].System}MB");
-            Console.WriteLine($"EFI partition size: {partitionSizes[0].EFI}MB");
+            Console.WriteLine($"Swap: {swap}");
+            Console.WriteLine($"System partition size: {partitionSizes[diskToPartition].System}MB");
+            Console.WriteLine($"EFI partition size: {partitionSizes[diskToPartition].EFI}MB");
             if (swap)
             {
-                Console.WriteLine($"Swap partition size: {partitionSizes[0].Swap}MB");
+                Console.WriteLine($"Swap partition size: {partitionSizes[diskToPartition].Swap}MB");
             }
             Console.WriteLine("Users:");
             foreach (var user in users.Values)
@@ -409,9 +406,9 @@ class User
 }
 class PartitionSizes
 {
-    public int System { get; set; }
-    public int EFI { get; set; }
-    public int Swap { get; set; }
+    public long System { get; set; }
+    public long EFI { get; set; }
+    public long Swap { get; set; }
 }
 
 }
