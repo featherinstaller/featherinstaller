@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Diagnostics;
 
 class Program
 {
@@ -303,12 +304,36 @@ static void ManageUsers()
     }
 }
 
-static long GetDiskSize(string diskToPartition) // broken bs
+static long GetDiskSize(string diskToPartition)
 {
     try
     {
-        var totalSize = new DriveInfo(diskToPartition).TotalSize;
-        return totalSize;
+        Process process = new Process();
+        ProcessStartInfo startInfo = new ProcessStartInfo
+        {
+            FileName = "lsblk",
+            Arguments = $"-b -o SIZE --noheadings {diskToPartition}",
+            RedirectStandardOutput = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        process.StartInfo = startInfo;
+        process.Start();
+
+        string output = process.StandardOutput.ReadToEnd().Trim();
+        process.WaitForExit();
+
+        if (long.TryParse(output, out long diskSizeBytes))
+        {
+            long diskSizeMB = diskSizeBytes / (1024 * 1024);
+            return diskSizeMB;
+        }
+        else
+        {
+            Console.WriteLine($"Error parsing lsblk output: {output}");
+            return -1;
+        }
     }
     catch (Exception ex)
     {
@@ -364,6 +389,7 @@ static void DeveloperMode()
             Console.WriteLine($"Hostname: {hostname}");
             Console.WriteLine($"Partitioning Type: {partitioningType}");
             Console.WriteLine($"Disk to partition: {diskToPartition}");
+            Console.WriteLine($"Overall disk size: {GetDiskSize(diskToPartition)}MB");
             Console.WriteLine($"Filesystem: {filesystem}");
             Console.WriteLine($"Swap: {swap}");
             Console.WriteLine($"System partition size: {partitionSizes[diskToPartition].System}MB");
