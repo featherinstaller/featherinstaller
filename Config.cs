@@ -54,49 +54,7 @@ class Config
             Console.WriteLine($"  {package}");
         }
     }
-
-    public static Configuration CreateConfig(string bootloader, string hostname, string partitioningType, string diskToPartition, string filesystem, Dictionary<string, User> users, List<string> packages, string SystemPartition, string EFIPartition, string SwapPartition, Dictionary<int, PartitionSizes> partitionSizes)
-    {
-        if (partitionSizes == null || !partitionSizes.ContainsKey(0))
-        {
-            return null;
-        }
-
-        Configuration config = new Configuration
-        {
-            Bootloader = bootloader,
-            Hostname = hostname,
-            Partitioning = new Partitioning
-            {
-                Type = partitioningType,
-                PartitionSizes = new PartitionSizes
-                {
-                    System = partitionSizes[0].System,
-                    EFI = partitionSizes[0].EFI,
-                    Swap = partitionSizes[0].Swap
-                },
-                SystemPartition = SystemPartition,
-                EFIPartition = EFIPartition,
-                SwapPartition = SwapPartition
-            },
-            Locales = new Locales
-            {
-                // Not finished
-            },
-            Users = new Users
-            {
-                UserList = new List<User>(users.Values)
-            },
-            Pacman = new Pacman
-            {
-                Packages = packages
-            }
-        };
-
-        return config;
-    }
 }
-
 class Configuration
 {
     public string Bootloader { get; set; }
@@ -119,9 +77,9 @@ class Partitioning
 
 class PartitionSizes
 {
-    public long System { get; set; }
-    public long EFI { get; set; }
-    public long Swap { get; set; }
+    public string System { get; set; }
+    public string EFI { get; set; }
+    public string Swap { get; set; }
 }
 
 class Locales
