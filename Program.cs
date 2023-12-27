@@ -101,18 +101,20 @@ static void PacmanConfigMenu()
         case 2:
             while (true)
             {
-                string packageList;
-                string[] packagesOptions = {"Add package", "Remove package", "Back"};
-                Menu packagesMenu = new Menu("Packages\n", packagesOptions);
-                int packagesIndex = packagesMenu.Run();
-                
-                foreach (var package in Packages)
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                for (int i = 0; i < Packages.Count; i++)
                 {
-                    Console.Write($"{package}");
-                    if (package.Length != package.Length - 1) {
-                        Console.Write(", ");
+                    sb.Append(Packages[i]);
+                    if (i != Packages.Count - 1)
+                    {
+                        sb.Append(", ");
                     }
                 }
+                string packages = sb.ToString();
+                string packageList;
+                string[] packagesOptions = {"Add package", "Remove package", "Back"};
+                Menu packagesMenu = new Menu($"Packages: {packages}\n", packagesOptions);
+                int packagesIndex = packagesMenu.Run();
 
                 switch (packagesIndex)
                 {
