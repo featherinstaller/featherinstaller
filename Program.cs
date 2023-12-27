@@ -11,9 +11,10 @@ class Program
     static string SystemPartition;
     static string EFIPartition;
     static string SwapPartition;
+    static string mirrorlist;
     
-    static Dictionary<string, PartitionSizes> partitionSizes = new Dictionary<string, PartitionSizes>();
-    static Dictionary<string, User> users = new Dictionary<string, User>();
+    public static Dictionary<string, PartitionSizes> partitionSizes = new Dictionary<string, PartitionSizes>();
+    public static Dictionary<string, User> users = new Dictionary<string, User>();
     static List<string> Packages { get; set; } = new List<string>();
     static bool swap;
 
@@ -52,7 +53,10 @@ static void MainMenu()
             break;
         // Save Configuration
         case 5:
-            // Config.SaveConfig();
+            var config = Config.CreateConfig(selectedBootloader,hostname,partitioningType,diskToPartition,filesystem,users,Packages,SystemPartition,EFIPartition,SwapPartition, partitionSizes);
+            Console.Write("Config save path: ");
+            string configPath = Console.ReadLine();
+            Config.SaveConfig(config,configPath);
             break;
         // Developer Mode
         case 6:
@@ -78,15 +82,38 @@ static void PacmanConfigMenu()
             break;
         // Mirrors
         case 1:
+            string[] mirrorOptions = {"Generate with Reflector", "Custom", "Back"};
+            Menu mirrorSelectionMenu = new Menu("Mirrors\n", mirrorOptions);
+            int mirrorIndex = mirrorSelectionMenu.Run();
+            switch (mirrorIndex)
+            {
+                case 0:
+                    ExecuteCommand("reflector","");
+                    break;
+                case 1:
+                    Console.Write("Mirrorlist path: ");
+                    mirrorlist = Console.ReadLine();
+                    PacmanConfigMenu();
+                    break;
+            }
             break;
         // Packages
         case 2:
             while (true)
             {
+                string packageList;
                 string[] packagesOptions = {"Add package", "Remove package", "Back"};
                 Menu packagesMenu = new Menu("Packages\n", packagesOptions);
                 int packagesIndex = packagesMenu.Run();
                 
+                foreach (var package in Packages)
+                {
+                    Console.Write($"{package}");
+                    if (package.Length != package.Length - 1) {
+                        Console.Write(", ");
+                    }
+                }
+
                 switch (packagesIndex)
                 {
                     // Add package
@@ -284,7 +311,6 @@ static void ManageUsers()
             Console.Write("Username: ");
             string userToRemove = Console.ReadLine();
 
-            // Check if the user exists before removing
             if (users.ContainsKey(userToRemove))
             {
                 users.Remove(userToRemove);
@@ -406,9 +432,16 @@ static void DeveloperMode()
             Console.WriteLine("Packages:");
             foreach (var package in Packages)
             {
-                Console.Write($"{package}, ");
+                Console.Write($"{package}");
+                if (package.Length != package.Length - 1) {
+                    Console.Write(", ");
+                }
             }
             Console.WriteLine("");
+            if (mirrorlist != null)
+            {
+                Console.WriteLine($"Mirrorlist: {mirrorlist}");
+            }
             break;
         // Back
         case 2:
@@ -417,7 +450,7 @@ static void DeveloperMode()
     }
 }
 
-class User
+public class User
 {
     public string Username { get; set; }
     public string DisplayName { get; set; }
@@ -430,11 +463,38 @@ class User
         Password = password;
     }
 }
-class PartitionSizes
+public class PartitionSizes
 {
     public long System { get; set; }
     public long EFI { get; set; }
     public long Swap { get; set; }
 }
+public static void ExecuteCommand(string command, string arguments)
+    {
+        ProcessStartInfo psi = new ProcessStartInfo
+        {
+            FileName = command,
+            Arguments = arguments,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
 
+        Process process = new Process { StartInfo = psi };
+
+        process.Start();
+
+        process.OutputDataReceived += (sender, e) =>
+        {
+            if (!string.IsNullOrEmpty(e.Data))
+            {
+                Console.WriteLine(e.Data);
+            }
+        };
+
+        process.BeginOutputReadLine();
+
+        process.WaitForExit();
+    }
 }
