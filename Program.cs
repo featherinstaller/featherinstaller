@@ -88,7 +88,6 @@ static void PacmanConfigMenu()
             switch (mirrorIndex)
             {
                 case 0:
-                    ExecuteCommand("reflector","");
                     break;
                 case 1:
                     Console.Write("Mirrorlist path: ");
@@ -471,32 +470,4 @@ public class PartitionSizes
     public long EFI { get; set; }
     public long Swap { get; set; }
 }
-public static void ExecuteCommand(string command, string arguments)
-    {
-        ProcessStartInfo psi = new ProcessStartInfo
-        {
-            FileName = command,
-            Arguments = arguments,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        Process process = new Process { StartInfo = psi };
-
-        process.Start();
-
-        process.OutputDataReceived += (sender, e) =>
-        {
-            if (!string.IsNullOrEmpty(e.Data))
-            {
-                Console.WriteLine(e.Data);
-            }
-        };
-
-        process.BeginOutputReadLine();
-
-        process.WaitForExit();
-    }
 }
